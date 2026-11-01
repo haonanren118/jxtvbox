@@ -1,0 +1,92 @@
+name: docker-publish
+
+on:
+  # 只通过版本标签触发：避免 release 事件重复跑一遍同样的构建
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # 上传 Release 资产（镜像 tar）
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU（arm64 交叉构建）
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata（tags / labels）
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          # 本项目只通过 v* 标签发布，latest 始终指向最新发布的版本
+          tags: |
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha
+            type=raw,value=latest
+
+      - name: Build and push（amd64 + arm64）
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # —— 导出单架构镜像 tar（供 fpk 离线安装 / docker load 预加载）——
+      - name: 读取版本号
+        id: ver
+        run: echo "v=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: 构建并导出 amd64 镜像 tar
+        run: |
+          IMG="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          V="${{ steps.ver.outputs.v }}"
+          # 标签与 GHCR 上的名字保持一致：docker load 之后可直接被 docker-compose / fpk 复用
+          docker buildx build --platform linux/amd64 --load -t "$IMG:$V" -t "$IMG:latest" .
+          docker save "$IMG:$V" "$IMG:latest" | gzip -6 > "jxtvbox-$V-amd64.tar.gz"
+
+      - name: 构建并导出 arm64 镜像 tar
+        run: |
+          IMG="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          V="${{ steps.ver.outputs.v }}"
+          docker buildx build --platform linux/arm64 --load -t "$IMG:$V" -t "$IMG:latest" .
+          docker save "$IMG:$V" "$IMG:latest" | gzip -6 > "jxtvbox-$V-arm64.tar.gz"
+
+      - name: 上传镜像 tar 为 Release 资产
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          name: JXTVbox v${{ steps.ver.outputs.v }}
+          files: |
+            jxtvbox-*-amd64.tar.gz
+            jxtvbox-*-arm64.tar.gz
+
+      - name: 上传镜像 tar 为 Workflow Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jxtvbox-image-tars
+          path: jxtvbox-*.tar.gz
+          retention-days: 30

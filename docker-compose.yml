@@ -1,0 +1,33 @@
+# JXTVbox docker-compose —— 一行部署
+# 用法：cp .env.example .env && 编辑 .env 里的 PASSWORD，然后 docker compose up -d
+
+services:
+  jxtvbox:
+    # 固定版本号，避免升级时被 latest 悄悄换掉；升级时改这里的版本即可
+    image: ghcr.io/haonanren118/jxtvbox:1.0.0
+    # 不用镜像、直接本地构建：把上一行换成 build: .
+    container_name: jxtvbox
+    restart: unless-stopped
+    ports:
+      - "8080:8080"                     # 左侧可改成任意空闲端口
+    environment:
+      - PASSWORD=${PASSWORD:-}          # 必填：访问密码；留空则 API 全部停用
+      - TZ=Asia/Shanghai
+      # —— 以下按需取消注释 ——
+      # 预置点播源（Apple CMS 采集站，JSON 数组，首次启动写入）
+      # - DEFAULT_SOURCES=[{"name":"示例源","url":"https://example.com/api.php/provide/vod"}]
+      # 预置短剧源（格式同上，仅在「短剧」页使用）
+      # - DEFAULT_DRAMA_SOURCES=[{"name":"短剧源","url":"https://example.com/api.php/provide/vod"}]
+      # 预置直播源（M3U 订阅，可带 XMLTV 节目单）
+      # - DEFAULT_LIVE_SOURCES=[{"name":"IPTV","url":"https://example.com/live.m3u","epg":"https://example.com/epg.xml"}]
+      # 本地/NAS 媒体目录（容器内路径，与下方 volumes 挂载点对应，逗号分隔）
+      # - MEDIA_DIRS=/media/local1,/media/nas
+      # 允许直播源为内网地址（udpxy、内网 Emby 等场景必须开启）
+      # - LIVE_ALLOW_PRIVATE=1
+    volumes:
+      - ./data:/app/data                # 源配置/健康度/密码持久化（升级不丢，多设备共享）
+      # 本地/NAS 媒体目录（按需修改左侧宿主机路径）
+      - ${MEDIA_DIR1:-./media}:/media/local1:ro
+      # - /vol1/video:/media/nas:ro
+    # 需要访问宿主机上的内网服务（udpxy / Emby / NAS）时，改用 host 网络并注释掉 ports：
+    # network_mode: host

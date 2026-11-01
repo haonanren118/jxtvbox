@@ -1,0 +1,1370 @@
+/**
+ * JXTVbox 样式 —— 暗色主题 + 毛玻璃。
+ * 覆盖 public/js/app.js 与 player.js 渲染出的全部 class。
+ */
+
+:root {
+  --bg: #0a0d13;
+  --bg-soft: #10141d;
+  --panel: rgba(17, 21, 30, 0.58);
+  --panel-solid: #12161f;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+  --text: #e8ebf2;
+  --muted: #8b93a7;
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.16);
+  --accent-2: #8b5cf6;
+  --danger: #f87171;
+  --warn: #fbbf24;
+  --ok: #34d399;
+  --radius: 16px;
+  --header-h: 60px;
+  --shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --font: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: rgba(59, 130, 246, 0.35); }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+img { display: block; max-width: 100%; }
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font: inherit;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 9px 13px;
+  outline: none;
+  min-width: 0;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+input::placeholder, textarea::placeholder { color: #5d6577; }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+}
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+select { cursor: pointer; }
+select option { background: var(--panel-solid); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+::-webkit-scrollbar { width: 9px; height: 9px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.14); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.24); }
+::-webkit-scrollbar-track { background: transparent; }
+
+/* —— 背景光斑 —— */
+
+.jx-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(1200px 700px at 82% -8%, rgba(59, 130, 246, 0.13), transparent 60%),
+    radial-gradient(900px 600px at 8% 108%, rgba(139, 92, 246, 0.12), transparent 60%),
+    var(--bg);
+}
+.jx-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: jx-float 22s ease-in-out infinite alternate;
+}
+.jx-orb-1 { width: 420px; height: 420px; top: -120px; left: -100px; background: rgba(59, 130, 246, 0.35); }
+.jx-orb-2 { width: 380px; height: 380px; bottom: -140px; right: -80px; background: rgba(139, 92, 246, 0.3); animation-delay: -8s; }
+.jx-orb-3 { width: 300px; height: 300px; top: 38%; left: 58%; background: rgba(56, 189, 248, 0.16); animation-delay: -14s; }
+
+@keyframes jx-float {
+  from { transform: translate(0, 0) scale(1); }
+  to { transform: translate(50px, 36px) scale(1.12); }
+}
+
+/* —— 毛玻璃基类 —— */
+
+.glass {
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* —— 头部导航 —— */
+
+.jx-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+.jx-header-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  height: var(--header-h);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+.jx-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: var(--text);
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.jx-logo:hover { text-decoration: none; }
+.jx-logo-box {
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-radius: 7px;
+  padding: 2px 7px;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+}
+.jx-nav {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  /* flex item 默认 min-width:auto（= 内容宽）不肯收缩，6 个导航项在 390px 手机上
+     会把 header 撑到 402px、把「媒体库」顶出屏幕外 —— 必须给 min-width:0
+     才能让 overflow-x 真正生效（可横向滑动）。 */
+  min-width: 0;
+  flex: 1 1 auto;
+  /* 右缘渐隐，提示后面还有项（手机上一眼看不出可滑会以为是错版） */
+  mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent);
+}
+.jx-nav::-webkit-scrollbar { display: none; }
+.jx-nav a {
+  position: relative;
+  white-space: nowrap;
+  padding: 7px 14px;
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: color 0.15s, background 0.15s;
+}
+.jx-nav a:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); text-decoration: none; }
+.jx-nav a.active { color: #fff; background: var(--accent-soft); }
+.jx-nav a.active::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 2px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+}
+
+/* —— 主区域 —— */
+
+.jx-main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 26px 20px 90px;
+}
+
+.jx-section { margin-bottom: 30px; }
+.jx-section-title {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 700;
+  padding-left: 11px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.3;
+}
+
+.jx-muted { color: var(--muted); }
+.jx-tip { font-size: 12px; margin-top: 10px; line-height: 1.7; }
+
+/* —— 按钮 —— */
+
+.jx-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.32);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+}
+.jx-btn-primary:hover { filter: brightness(1.1); box-shadow: 0 6px 22px rgba(59, 130, 246, 0.45); text-decoration: none; }
+.jx-btn-primary:active { transform: translateY(1px); }
+
+.jx-btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 15px;
+  border-radius: 10px;
+  white-space: nowrap;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.jx-btn-ghost:hover { border-color: var(--border-strong); background: rgba(255, 255, 255, 0.09); text-decoration: none; }
+.jx-btn-ghost.danger { color: var(--danger); border-color: rgba(248, 113, 113, 0.3); }
+.jx-btn-ghost.danger:hover { background: rgba(248, 113, 113, 0.12); border-color: rgba(248, 113, 113, 0.5); }
+
+/* —— 登录页 —— */
+
+.jx-login {
+  width: min(400px, calc(100vw - 40px));
+  margin: 16vh auto 0;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.jx-login h2 { margin: 0 0 4px; font-size: 26px; }
+.jx-login p { margin: 0 0 8px; font-size: 13px; }
+.jx-login input { width: 100%; text-align: center; padding: 11px; }
+.jx-login .jx-btn-primary { width: 100%; padding: 11px; margin-top: 4px; }
+
+/* —— 首页 / 搜索 —— */
+
+.jx-searchbar {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+}
+.jx-searchbar input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 9px 12px;
+  font-size: 15px;
+}
+.jx-searchbar input:focus { box-shadow: none; }
+
+.jx-search-status { margin-top: 12px; font-size: 13px; color: var(--muted); min-height: 20px; }
+
+.jx-search-hist {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.jx-chip {
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s;
+}
+.jx-chip:hover { color: var(--text); border-color: var(--accent); }
+.jx-chip-clear { color: rgba(248, 113, 113, 0.85); }
+.jx-chip-clear:hover { border-color: rgba(248, 113, 113, 0.5); }
+.jx-chip-on {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+}
+.jx-chip-on:hover { color: #fff; border-color: transparent; }
+
+/* —— 短剧页 —— */
+
+.jx-drama-toolbar {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jx-drama-toolbar .jx-live-search { max-width: 420px; }
+.jx-drama-search-row {
+  display: flex;
+  gap: 8px;
+  max-width: 420px;
+}
+.jx-drama-search-row .jx-live-search { flex: 1; min-width: 0; max-width: none; }
+.jx-drama-search-btn { flex-shrink: 0; padding: 0 20px; }
+.jx-drama-more {
+  margin-top: 14px;
+  align-self: center;
+}
+
+/* —— 豆瓣热播 —— */
+
+.jx-douban-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+/* 必须 wrap：短剧页把分类（8+ 个）也放进这个容器，不换行会被 flex 压成
+   竖排窄条（文字逐字竖着排），手机上尤其明显。豆瓣页只有 2 个 chip，不受影响。 */
+.jx-douban-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.jx-douban-card { cursor: pointer; }
+.jx-douban-card:hover { transform: translateY(-3px); }
+.jx-rate-badge {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  padding: 1px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(10, 13, 19, 0.82);
+  backdrop-filter: blur(6px);
+}
+
+/* —— 卡片网格 —— */
+
+.jx-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 18px;
+}
+.jx-row {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.jx-card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+.jx-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59, 130, 246, 0.45);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(59, 130, 246, 0.25);
+}
+.jx-card-sm { flex: 0 0 138px; }
+
+.jx-card-cover {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  background: linear-gradient(160deg, #171c28, #0e1219);
+  overflow: hidden;
+}
+.jx-card-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+.jx-card:hover .jx-card-cover img { transform: scale(1.05); }
+.jx-card-nocover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4b5265;
+  font-size: 13px;
+}
+.jx-quality-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(59, 130, 246, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+.jx-card-remarks {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  max-width: calc(100% - 16px);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #ffd479;
+  background: rgba(0, 0, 0, 0.62);
+  border: 1px solid rgba(255, 212, 121, 0.25);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jx-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.55);
+}
+.jx-progress-inner {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #60a5fa);
+  border-radius: 0 2px 2px 0;
+}
+
+.jx-card-body { padding: 10px 12px 12px; }
+.jx-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.8em;
+}
+.jx-card-meta {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--muted);
+}
+.jx-src-tag {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: #9db4d8;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.22);
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* —— 播放页 —— */
+
+#view:has(> .jx-watch-info) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 370px;
+  gap: 20px;
+  align-items: start;
+}
+
+.jx-player-box {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.jx-player-box .art-video-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+/* 竖版视频（短剧 720×1280）：宽度取「容器宽」与「78svh 按比例换算」的较小值，
+   高度由 aspect-ratio 反推 —— 桌面按高度封顶，窄屏按宽度收缩，两种情况下
+   盒子比例都恒等于视频比例（不出现拉伸/黑边）。
+   注意不能用 width:auto（播放器是 absolute 定位、没有内容宽度，auto 会算成 0）。
+   78svh = 地址栏可见时的视口高，iOS Safari 地址栏收放时不变，画面不会忽大忽小；
+   svh 不支持时（Safari < 15.4）整条 calc 失效，回退上一行 78vh 版本。 */
+.jx-player-box[data-video-orientation="portrait"] {
+  width: min(100%, calc(78vh * var(--jx-ratio, 0.5625)));
+  width: min(100%, calc(78svh * var(--jx-ratio, 0.5625)));
+  height: auto;
+  max-width: 100%;
+  /* 播放页 #view 是 grid：center 让 min() 结果不被 stretch 覆盖 */
+  justify-self: center;
+  margin-inline: auto;
+}
+/* 竖版播放器接近一屏高时取消 sticky 吸附，让信息区/剧集列表正常跟随滚动 */
+@media (max-width: 1020px) {
+  #view:has(> .jx-watch-info) > .jx-player-box[data-video-orientation="portrait"] { position: static; }
+}
+/* 网页全屏（手机横屏自动进入）：全屏期间锁背后页面滚动，控制条避开刘海/home 条 */
+body:has(.art-video-player.art-fullscreen-web) { overflow: hidden; }
+/* 竖屏时 .jx-player-box 带 sticky+z-index:40 会形成层叠上下文，把全屏播放器（z-9999）
+   困在 40 层、被 header（z-100）压住。全屏时取消 box 的定位与层级，让播放器直接参与竞争 */
+.jx-player-box:has(.art-video-player.art-fullscreen-web) {
+  position: static !important;
+  z-index: auto !important;
+}
+/* ArtPlayer 的 .art-fullscreen-web 为 position:fixed，但会被上方 .jx-player-box .art-video-player
+   （特异性 0,2,1）覆盖成 absolute——全屏时强制拉回 fixed 撑满视口 */
+.jx-player-box .art-video-player.art-fullscreen-web {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: var(--art-fullscreen-web-index, 9999);
+  border-radius: 0;
+}
+.art-video-player.art-fullscreen-web .art-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.art-video-player.art-fullscreen-web .art-top { padding-top: env(safe-area-inset-top, 0px); }
+.art-video-player.art-fullscreen-web .art-controls {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* —— 自有全屏控制器（js/player.js）——
+   上面几条依赖 :has()，而 :has() 要 Chromium 105+；华为/鸿蒙部分机型内核更老，
+   整条规则被丢弃 → 播放器被困在 .jx-player-box 的 sticky+z-index:40 层叠上下文里，
+   被 header 压住、只剩一小块，这就是「全屏铺不满」。这里全部改用 JS 加的类名。 */
+html.jx-fs,
+body.jx-fs {
+  overflow: hidden !important;
+  height: 100%;
+  overscroll-behavior: none;
+}
+body.jx-fs .jx-header { display: none !important; }
+
+/* —— 手机全屏：把控制条真正铺满屏幕 ——
+   ArtPlayer 默认每个控件 38px 宽（--art-control-height）、.art-bottom 左右各留 10px
+   （--art-padding）。短剧竖屏全屏只有 ~393px 宽，而控制条要放 6 个左侧控件
+   （播放/上一集/下一集/选集/音量/时间）+ 4 个右侧控件（设置/画中画/网页全屏/全屏）
+   = 426px > 373px 可用宽度，于是最右边的「退出全屏」按钮被顶到屏幕外（实测 right=426）。
+   这里收窄控件与留白，并让左侧组可收缩兜底，任何窄屏下右侧按钮都不会出屏。 */
+@media (max-width: 520px) {
+  /* 只做两件「纯视觉」的事，绝不改 ArtPlayer 的布局变量（--art-padding /
+     --art-control-height 会牵连到控制条与底部的尺寸计算，上一版改它们之后
+     真机上短剧全屏出问题，这里全部还原默认）：
+     ① 隐藏两个按钮：「网页全屏」与「全屏」在我们的接管逻辑里功能完全相同（点哪个都走
+        同一套控制器），「画中画」在手机上价值最低。右侧从 4 个减到 2 个（152→76px），
+        左侧 274 + 右侧 76 = 350 < 373，控制条不再溢出；
+     ② 右侧组右端只抵到 6px 处（默认负边距是 -10px，会顶到屏幕最外沿）。 */
+  body.jx-fs .art-control-pip,
+  body.jx-fs .art-control-fullscreenWeb { display: none !important; }
+  body.jx-fs .art-controls-right { margin-right: -4px !important; }
+  /* 兜底：极窄屏（≤320）左侧组可以压缩，右侧按钮永远完整可见 */
+  body.jx-fs .art-controls-left { min-width: 0; overflow: hidden; }
+  body.jx-fs .art-controls-right { flex: 0 0 auto; min-width: 0; }
+}
+.jx-player-box.jx-fs-box {
+  position: static !important;
+  z-index: auto !important;
+  overflow: visible !important;
+  /* backdrop-filter / filter / transform 都会成为 fixed 后代的新包含块，
+     使「铺满视口」变成「铺满这个小盒子」——全屏期间一律清掉 */
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+/* 兜底：万一内联几何被覆盖，这几条也能把播放器拉成 fixed 铺满 */
+.art-video-player.jx-fs-forced {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9990 !important;
+  border-radius: 0 !important;
+  background: #000;
+}
+
+/* —— 手机全屏选集面板 ——
+   全屏时页面内的剧集列表被播放器盖住，控制条「剧集」按钮唤出本浮层。
+   复用 .jx-watch-info 的 DOM（不额外维护一套），仅在全屏打开态浮起来。 */
+.jx-watch-info:not(.open) .jx-panel-close { display: none; }
+body.jx-mobile-panel-open { overflow: hidden; }
+@media (max-width: 1020px) {
+  body.jx-mobile-panel-open .jx-watch-info.open {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(420px, 92vw);
+    z-index: 10000;
+    overflow-y: auto;
+    padding: 18px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    background: rgba(10, 15, 30, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-left: 1px solid rgba(96, 165, 250, 0.28);
+    border-radius: 0;
+  }
+  /* 面板内剧集区取消限高，随面板滚动（210px 限高在浮层里会截断） */
+  body.jx-mobile-panel-open .jx-watch-info.open .jx-episodes-grid { max-height: none; }
+}
+.jx-player-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+}
+
+.jx-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(60% 60% at 50% 45%, rgba(59, 130, 246, 0.16), transparent 70%),
+    rgba(6, 8, 12, 0.72);
+  animation: jx-pulse 1.6s ease-in-out infinite;
+}
+.jx-poster::after {
+  content: "▶";
+  font-size: 44px;
+  color: rgba(255, 255, 255, 0.85);
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 6px;
+  background: rgba(59, 130, 246, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.35);
+}
+@keyframes jx-pulse { 50% { opacity: 0.55; } }
+
+.jx-hint {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  max-width: 82%;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(8, 11, 17, 0.78);
+  border: 1px solid var(--border-strong);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  animation: jx-drop 0.2s ease;
+}
+@keyframes jx-drop { from { opacity: 0; transform: translate(-50%, -8px); } }
+
+.jx-error {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+  text-align: center;
+  background: rgba(7, 9, 14, 0.93);
+}
+.jx-error-msg { margin: 0; color: var(--muted); font-size: 14px; }
+.jx-error-retry { /* 复用 primary 样式 */ }
+
+.jx-watch-info { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.jx-watch-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.jx-watch-title { margin: 0; font-size: 20px; line-height: 1.4; }
+.jx-watch-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.jx-watch-meta { font-size: 13px; }
+.jx-watch-desc {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.75;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.jx-episodes { display: flex; flex-direction: column; gap: 10px; }
+.jx-episodes-head { font-size: 13px; color: var(--muted); }
+.jx-episodes-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.jx-ep-btn {
+  min-width: 42px;
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.jx-ep-btn:hover { color: var(--text); border-color: var(--border-strong); }
+.jx-ep-btn.active {
+  color: #fff;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  border-color: transparent;
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.35);
+}
+
+/* —— 换源弹窗 —— */
+
+.jx-picker-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(4, 6, 10, 0.66);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: jx-fade 0.16s ease;
+}
+@keyframes jx-fade { from { opacity: 0; } }
+
+.jx-picker {
+  width: min(460px, 100%);
+  max-height: min(76vh, 620px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 22px;
+  box-shadow: var(--shadow);
+  animation: jx-pop 0.18s ease;
+}
+@keyframes jx-pop { from { opacity: 0; transform: scale(0.96) translateY(8px); } }
+.jx-picker h3 { margin: 0; font-size: 17px; }
+.jx-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.jx-picker-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  text-align: left;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, background 0.15s;
+}
+.jx-picker-item:hover { border-color: var(--accent); background: var(--accent-soft); }
+.jx-picker-item > span:last-child { color: var(--muted); font-size: 12.5px; flex-shrink: 0; }
+.jx-picker > .jx-btn-ghost { align-self: flex-end; }
+
+/* —— 直播页 —— */
+
+#view:has(> .jx-live-body) {
+  display: grid;
+  grid-template-columns: minmax(0, 340px) minmax(0, 1fr);
+  grid-template-areas:
+    "head head"
+    "side player";
+  gap: 16px;
+  align-items: start;
+}
+#view:has(> .jx-live-body) > .jx-live-head { grid-area: head; }
+#view:has(> .jx-live-body) > .jx-live-body { grid-area: side; min-width: 0; }
+#view:has(> .jx-live-body) > .jx-player-box { grid-area: player; }
+
+.jx-live-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 2px;
+}
+.jx-live-head h2 { margin: 0; font-size: 20px; }
+
+.jx-live-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px;
+  max-height: calc(100vh - 150px);
+  min-height: 0;
+}
+.jx-live-search { width: 100%; }
+.jx-live-sidebar .jx-channel-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow-y: auto;
+  min-height: 120px;
+  flex: 1;
+}
+
+.jx-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.jx-tabs-sm { gap: 6px; }
+.jx-tab {
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.jx-tab:hover { color: var(--text); border-color: var(--border-strong); }
+.jx-tab.active {
+  color: #fff;
+  background: var(--accent-soft);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+.jx-channel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 10px;
+  text-align: left;
+  color: var(--muted);
+  border: 1px solid transparent;
+  transition: color 0.15s, background 0.15s;
+}
+.jx-channel:hover { color: var(--text); background: rgba(255, 255, 255, 0.05); }
+.jx-channel.active {
+  color: #fff;
+  background: var(--accent-soft);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+.jx-channel-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #3d4557;
+}
+.jx-channel.active .jx-channel-dot {
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+}
+.jx-channel-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13.5px; }
+
+.jx-live-now {
+  padding: 10px 16px;
+  font-size: 14.5px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+}
+.jx-live-video { width: 100%; height: 100%; background: #000; }
+/* 直播播放器外壳：承载原生全屏（按钮 + 手机横屏自动全屏） */
+.jx-live-player-wrap { position: relative; }
+.jx-live-fs {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  z-index: 5;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  cursor: pointer;
+}
+.jx-live-fs:active { transform: scale(0.96); }
+/* 原生全屏：视频撑满、now 条避让刘海 */
+.jx-live-player-wrap:fullscreen .jx-live-video { width: 100vw; height: 100vh; object-fit: contain; }
+.jx-live-player-wrap:fullscreen .jx-live-now {
+  position: absolute;
+  top: env(safe-area-inset-top, 0px);
+  left: 12px;
+  z-index: 6;
+  border-bottom: none;
+  text-shadow: 0 1px 3px #000;
+}
+.jx-live-player-wrap:fullscreen .jx-live-fs { bottom: calc(10px + env(safe-area-inset-bottom, 0px)); }
+.jx-epg {
+  padding: 10px 16px;
+  font-size: 13px;
+  color: #c3cad8;
+  border-top: 1px solid var(--border);
+  line-height: 1.7;
+}
+
+/* —— 媒体库页 —— */
+
+.jx-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 13px;
+  margin-bottom: 14px;
+}
+.jx-crumb {
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--accent);
+  background: rgba(59, 130, 246, 0.08);
+  transition: background 0.15s;
+}
+.jx-crumb:hover { background: rgba(59, 130, 246, 0.18); text-decoration: none; }
+
+.jx-media-list { display: flex; flex-direction: column; gap: 8px; }
+.jx-media-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 13px;
+  text-align: left;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+.jx-media-item:hover {
+  border-color: rgba(59, 130, 246, 0.45);
+  background: rgba(59, 130, 246, 0.07);
+  transform: translateX(3px);
+}
+.jx-media-icon { font-size: 18px; flex-shrink: 0; }
+.jx-media-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; }
+.jx-media-size { font-size: 12px; flex-shrink: 0; }
+.jx-media-video .jx-media-icon { color: #7dd3fc; }
+
+/* —— 历史页 —— */
+
+.jx-history-list { display: flex; flex-direction: column; gap: 10px; }
+.jx-history-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 15px;
+  border-radius: 14px;
+}
+.jx-history-play {
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  font-size: 15px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), #2563eb);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  transition: transform 0.15s;
+}
+.jx-history-play:hover { transform: scale(1.08); }
+.jx-history-body { flex: 1; min-width: 0; }
+.jx-history-title { font-size: 15px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.jx-history-body .jx-muted { font-size: 12.5px; margin-top: 2px; }
+
+/* —— 设置页 —— */
+
+.jx-settings {
+  padding: 6px 18px;
+  display: flex;
+  flex-direction: column;
+}
+.jx-setting-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 0;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 14px;
+}
+.jx-setting-row:last-child { border-bottom: none; }
+.jx-setting-row .jx-muted { margin-left: auto; font-size: 12.5px; }
+
+.jx-src-list { display: flex; flex-direction: column; gap: 10px; }
+.jx-src-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 15px;
+  border-radius: 14px;
+}
+.jx-src-item.disabled { opacity: 0.55; }
+.jx-src-info { flex: 1; min-width: 0; font-size: 14px; }
+.jx-src-info > div:first-child { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-weight: 600; }
+.jx-src-url {
+  margin-top: 3px;
+  font-size: 12.5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.jx-src-health { margin-top: 5px; font-size: 12.5px; color: var(--warn); }
+.jx-src-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex-shrink: 0;
+  justify-content: flex-end;
+}
+
+.jx-src-add {
+  margin-top: 12px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.jx-src-add-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.jx-src-add-row input, .jx-src-add-row select { flex: 1; min-width: 130px; }
+.jx-src-add-row .jx-btn-primary { flex-shrink: 0; }
+
+.jx-badge-adult {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: rgba(239, 68, 68, 0.75);
+}
+.jx-badge-off {
+  padding: 1px 7px;
+  border-radius: 999px;
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+}
+
+/* —— 状态 —— */
+
+.jx-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 46px 20px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.jx-loading::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.25);
+  border-top-color: var(--accent);
+  animation: jx-spin 0.8s linear infinite;
+}
+@keyframes jx-spin { to { transform: rotate(360deg); } }
+
+.jx-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: var(--muted);
+}
+.jx-empty h3 { margin: 0 0 8px; color: var(--text); font-size: 17px; }
+.jx-empty p { margin: 6px 0; font-size: 13.5px; }
+
+.jx-error-inline {
+  padding: 11px 15px;
+  border-radius: 11px;
+  font-size: 13.5px;
+  color: var(--danger);
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+}
+
+/* —— Toast —— */
+
+.jx-toast-box {
+  position: fixed;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+.jx-toast {
+  max-width: min(480px, calc(100vw - 40px));
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  color: #fff;
+  background: rgba(16, 20, 29, 0.88);
+  border: 1px solid var(--border-strong);
+  box-shadow: var(--shadow);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.jx-toast.show { opacity: 1; transform: translateY(0); }
+.jx-toast-info { border-left: 3px solid var(--accent); }
+.jx-toast-success { border-left: 3px solid var(--ok); }
+.jx-toast-error { border-left: 3px solid var(--danger); }
+.jx-toast-warn { border-left: 3px solid var(--warn); }
+
+/* —— 响应式 —— */
+
+@media (max-width: 1020px) {
+  #view:has(> .jx-watch-info) { grid-template-columns: 1fr; }
+  #view:has(> .jx-watch-info) > .jx-player-box { position: sticky; top: calc(var(--header-h) + 10px); z-index: 40; }
+  #view:has(> .jx-live-body) {
+    grid-template-columns: 1fr;
+    grid-template-areas: "head" "player" "side";
+  }
+  #view:has(> .jx-live-body) > .jx-live-sidebar { max-height: none; }
+  .jx-live-sidebar { max-height: 52vh; }
+}
+
+@media (max-width: 640px) {
+  .jx-main { padding: 18px 14px 70px; }
+  .jx-header-inner { gap: 10px; padding: 0 12px; }
+  .jx-logo { font-size: 18px; }
+  .jx-nav { gap: 2px; }
+  .jx-nav a { padding: 7px 10px; font-size: 14px; }
+  .jx-grid { grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 12px; }
+  .jx-card-sm { flex-basis: 116px; }
+  /* 纵向排列时 align-items 必须 stretch：flex-start 会让 .jx-src-info 按
+     「内容宽」计算，一长串源地址（white-space:nowrap）把整页撑出屏幕（390→402px）。 */
+  .jx-src-item { flex-direction: column; align-items: stretch; }
+  .jx-src-info { max-width: 100%; }
+  .jx-src-actions { justify-content: flex-start; }
+  /* 小屏上两个输入框并排会把 placeholder 全截断，改成一字段一行 */
+  .jx-src-add-row input, .jx-src-add-row select { min-width: 100%; }
+  .jx-picker { padding: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* —— Android TV / 客厅遥控（10-foot UI） —— */
+
+body.jx-tv { font-size: 16px; }
+body.jx-tv .jx-main { max-width: 1440px; }
+body.jx-tv .jx-grid { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 22px; }
+body.jx-tv .jx-card-title { font-size: 16px; }
+body.jx-tv .jx-nav a { padding: 9px 17px; font-size: 16px; }
+body.jx-tv .jx-tab { padding: 10px 18px; font-size: 15px; }
+body.jx-tv .jx-channel { padding: 12px 14px; }
+body.jx-tv .jx-media-item { padding: 15px 17px; }
+body.jx-tv .jx-ep-btn { min-width: 52px; height: 44px; font-size: 15px; }
+body.jx-tv .jx-btn-primary, body.jx-tv .jx-btn-ghost { padding: 11px 22px; font-size: 15px; }
+
+/* 焦点环：TV 上 focus 是主要交互反馈，必须醒目 */
+body.jx-tv :focus { outline: none; }
+body.jx-tv a:focus-visible,
+body.jx-tv button:focus-visible,
+body.jx-tv input:focus-visible,
+body.jx-tv select:focus-visible,
+body.jx-tv [tabindex]:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 7px rgba(59, 130, 246, 0.22), var(--shadow);
+  border-radius: 12px;
+  z-index: 5;
+}
+body.jx-tv .jx-card:focus-visible {
+  border-color: var(--accent);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 0 0 3px #60a5fa, 0 18px 44px rgba(0, 0, 0, 0.6);
+}
+body.jx-tv .jx-player-box:focus-visible {
+  box-shadow: 0 0 0 3px #60a5fa;
+}
+body.jx-tv .jx-ep-btn.active:focus-visible { box-shadow: 0 0 0 3px #60a5fa; }
+
+/* TV 上滚动容器用焦点滚动，弱化滚动条存在感 */
+body.jx-tv .jx-episodes-grid { scrollbar-width: thin; }
+
+/* —— TV 播放页：播放器全屏 + 右侧剧集/信息面板 —— */
+/* 播放页隐藏顶部导航（10-foot 场景导航让位给播放；返回键/面板内按钮退出） */
+body:has(.jx-tv-watch) .jx-header { display: none; }
+/* 播放器兜底全屏（自动 fullscreenWeb 生效后由 ArtPlayer 的 fixed 规则接管）。
+   !important：压过上方「全屏时取消 box 定位」的手机规则（该规则对 TV 同样需要兜底） */
+body.jx-tv .jx-tv-watch .jx-player-box {
+  position: fixed !important;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  max-height: none;
+  z-index: 50;
+  border-radius: 0;
+  background: #000;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+/* 右侧滑出面板：剧集 / 换源 / 返回，默认隐藏，M 键或控制条按钮唤出 */
+body.jx-tv .jx-tv-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(470px, 94vw);
+  z-index: 10000;
+  overflow-y: auto;
+  padding: 22px;
+  background: rgba(10, 15, 30, 0.93);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-left: 1px solid rgba(96, 165, 250, 0.28);
+  transform: translateX(105%);
+  visibility: hidden;
+  transition: transform 0.24s ease, visibility 0.24s;
+}
+body.jx-tv .jx-tv-panel.open { transform: none; visibility: visible; }
+body.jx-tv-panel-open { overflow: hidden; }
+body.jx-tv .jx-tv-panel .jx-watch-title { font-size: 20px; }
+body.jx-tv .jx-tv-panel .jx-watch-desc { font-size: 14px; line-height: 1.7; }
+body.jx-tv .jx-tv-panel .jx-ep-btn { min-width: 62px; height: 52px; font-size: 17px; }
+/* 面板内聚焦元素随滚动进入视口（选集多时可滚动） */
+body.jx-tv .jx-tv-panel :focus-visible { scroll-margin: 40px; }
+
+/* —— 手机 / 触屏 —— */
+
+/* 触屏无 hover：清除粘滞的浮起效果，点击反馈交给 :active */
+@media (hover: none) {
+  .jx-card:hover { transform: none; }
+  .jx-card:hover .jx-card-cover img { transform: none; }
+  .jx-card:active { transform: scale(0.97); }
+  .jx-media-item:hover { transform: none; }
+  .jx-media-item:active { background: rgba(59, 130, 246, 0.12); }
+  .jx-btn-primary:active { filter: brightness(1.15); }
+  .jx-history-play:hover { transform: none; }
+  .jx-history-play:active { transform: scale(0.92); }
+}
+
+/* 触屏点击区域不小于 44px，避免误触 */
+@media (pointer: coarse) {
+  .jx-ep-btn { min-width: 46px; height: 44px; }
+  .jx-tab { padding: 10px 17px; }
+  .jx-chip { padding: 8px 15px; }
+  .jx-nav a { padding: 10px 14px; }
+  .jx-channel { padding: 12px 14px; }
+  .jx-media-item { padding: 14px 16px; }
+  .jx-btn-ghost { padding: 10px 16px; }
+  .jx-crumb { padding: 8px 12px; }
+  .jx-history-play { width: 46px; height: 46px; }
+  .jx-setting-row { padding: 15px 0; }
+  .jx-searchbar .jx-btn-primary { padding: 11px 18px; }
+}
+
+/* 安全区：刘海屏底部横条与桌面端头部 */
+@supports (padding: max(0px)) {
+  .jx-header-inner { padding-top: env(safe-area-inset-top); height: calc(var(--header-h) + env(safe-area-inset-top)); }
+  .jx-main { padding-bottom: calc(90px + env(safe-area-inset-bottom)); }
+  .jx-toast-box { top: calc(22px + env(safe-area-inset-top)); }
+  @media (display-mode: browser) {
+    .jx-header-inner { padding-top: 0; height: var(--header-h); }
+  }
+}
+
+/* 登录页在移动端浏览器用动态视口高度，避免地址栏跳动 */
+.jx-login { margin-top: max(16vh, 60px); min-height: 40dvh; }
+
+/* 小屏播放页：剧集区高度收紧，信息流优先 */
+@media (max-width: 640px) {
+  .jx-episodes-grid { max-height: 210px; }
+  .jx-watch-title { font-size: 18px; }
+  .jx-live-sidebar { max-height: 44vh; }
+  .jx-live-now { font-size: 13.5px; }
+}
+
+/* —— 全屏诊断浮层（?fsdiag=1）—— */
+.jx-fsdiag {
+  position: fixed;
+  left: 8px;
+  right: 8px;
+  top: 8px;
+  z-index: 2147483647;
+  margin: 0;
+  padding: 12px 14px;
+  background: rgba(6, 9, 14, 0.94);
+  border: 1px solid rgba(96, 165, 250, 0.4);
+  border-radius: 10px;
+  color: #d7e2f5;
+  font: 11px/1.55 ui-monospace, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+  word-break: break-all;
+  user-select: text;
+}
+.jx-fsdiag-close {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  font-size: 18px;
+  line-height: 1;
+  color: #9fb0c9;
+}

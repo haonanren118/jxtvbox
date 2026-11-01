@@ -1,0 +1,24 @@
+# 构建产物排除（镜像内只需要运行时源码）
+node_modules/
+npm-debug.log*
+
+# 运行时数据（卷挂载，不进镜像）
+data/
+media/
+.env
+.env.*
+!.env.example
+
+# 开发/分析/CI 不需要
+_analysis/
+.git/
+.github/
+*.md
+!README.md
+fnpack/
+dist/
+
+# 系统杂项
+.DS_Store
+Thumbs.db
+*.log

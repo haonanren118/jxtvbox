@@ -1,0 +1,12 @@
+# 统一换行，避免 Windows 提交的 CRLF 破坏 shell 脚本与 Docker 构建
+* text=auto eol=lf
+
+# 二进制文件不做换行转换
+*.png binary
+*.jpg binary
+*.ico binary
+*.fpk binary
+*.tar.gz binary
+
+# 第三方压缩产物：GitHub 语言统计忽略
+public/vendor/* linguist-vendored

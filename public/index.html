@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>JXTVbox · 聚合播放器</title>
+  <meta name="description" content="JXTVbox —— 聚合搜索播放 + 短剧 + 直播 + 网盘/本地媒体库" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%233b82f6'/%3E%3Ctext x='32' y='42' font-size='28' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3EJX%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="/css/app.css?v=20261101fs12" />
+</head>
+<body>
+  <div class="jx-bg" aria-hidden="true">
+    <div class="jx-orb jx-orb-1"></div>
+    <div class="jx-orb jx-orb-2"></div>
+    <div class="jx-orb jx-orb-3"></div>
+  </div>
+  <div id="app"></div>
+
+  <script src="/vendor/hls.js"></script>
+  <script src="/vendor/mpegts.js"></script>
+  <script src="/vendor/artplayer.js"></script>
+  <script type="module" src="/js/tv-nav.js?v=20261101fs12"></script>
+  <script type="module" src="/js/app.js?v=20261101fs12"></script>
+</body>
+</html>

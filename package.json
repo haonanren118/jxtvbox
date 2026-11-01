@@ -1,0 +1,15 @@
+{
+  "name": "jxtvbox",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JXTVbox 聚合播放器 —— 聚合搜索 + 短剧 + 直播 + 网盘/本地媒体库（零依赖 Node 服务端）",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  }
+}
