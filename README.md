@@ -5,7 +5,7 @@
 [![Docker](https://img.shields.io/badge/ghcr.io-jxtvbox-2496ED?logo=docker&logoColor=white)](https://github.com/haonanren118/jxtvbox/pkgs/container/jxtvbox)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-339933?logo=node.js&logoColor=white)](package.json)
 [![Platform](https://img.shields.io/badge/platform-amd64%20%7C%20arm64-lightgrey)](#安装)
-[![fnOS](https://img.shields.io/badge/%E9%A3%9E%E7%89%9B%20fnOS-fpk-00A0E9)](#一飞牛-nasfnos--推荐)
+[![fnOS](https://img.shields.io/badge/%E9%A3%9E%E7%89%9B%20fnOS-fpk-00A0E9)](#方式一飞牛-nasfnos一键安装-fpk)
 [![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-708144970-12B7F5?logo=tencentqq&logoColor=white)](#交流与反馈)
 
 聚合影视搜索播放器：**点播聚合 + 短剧 + 直播 + 网盘/本地媒体库**，一个容器跑起来，浏览器、手机、电视盒子、Android TV 都能用。
