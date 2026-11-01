@@ -1,10 +1,20 @@
 # JXTVbox
 
+[![Release](https://img.shields.io/github/v/release/haonanren118/jxtvbox?color=2ea043&label=release)](https://github.com/haonanren118/jxtvbox/releases)
+[![License](https://img.shields.io/badge/license-AGPL--3.0-orange)](LICENSE)
+[![Docker](https://img.shields.io/badge/ghcr.io-jxtvbox-2496ED?logo=docker&logoColor=white)](https://github.com/haonanren118/jxtvbox/pkgs/container/jxtvbox)
+[![Node](https://img.shields.io/badge/node-%E2%89%A518.17-339933?logo=node.js&logoColor=white)](package.json)
+[![Platform](https://img.shields.io/badge/platform-amd64%20%7C%20arm64-lightgrey)](#安装)
+[![fnOS](https://img.shields.io/badge/%E9%A3%9E%E7%89%9B%20fnOS-fpk-00A0E9)](#一飞牛-nasfnos--推荐)
+[![QQ群](https://img.shields.io/badge/QQ%E7%BE%A4-708144970-12B7F5?logo=tencentqq&logoColor=white)](#交流与反馈)
+
 聚合影视搜索播放器：**点播聚合 + 短剧 + 直播 + 网盘/本地媒体库**，一个容器跑起来，浏览器、手机、电视盒子、Android TV 都能用。
 
 服务端是**零依赖 Node**（没有 `npm install`、没有构建步骤），前端是**零构建原生 ES Module**，所以镜像只有 ~170MB，任何有 Docker 的设备（飞牛 NAS、群晖、极空间、软路由、树莓派、VPS）都能装。
 
 > 本项目基于 [LibreSpark/LibreTV](https://github.com/LibreSpark/LibreTV) 的核心逻辑重写与增强，遵循 **AGPL-3.0** 开源。
+
+**搜索关键词**（方便你或别人找到它）：TVBox 替代、影视聚合、追剧、短剧、直播源、IPTV、EPG、苹果 CMS 采集、飞牛 fnOS、群晖 / 极空间 / 绿联 NAS、自建影视库、WebDAV / AList / Emby、Docker 影视、hls.js、ArtPlayer、Android TV 影视 App。
 
 ---
 
@@ -29,6 +39,7 @@
 - [架构](#架构)
 - [与 LibreTV 的差异](#与-libretv-的差异)
 - [已知限制](#已知限制)
+- [交流与反馈](#交流与反馈)
 - [致谢](#致谢)
 - [License](#license)
 
@@ -302,6 +313,19 @@ jxtvbox/
 
 ---
 
+## 交流与反馈
+
+| 渠道 | 用途 |
+| --- | --- |
+| **QQ 群：708144970** | 安装答疑、源配置交流、新版本尝鲜。装不上、打不开、播放异常，群里问最快 |
+| [Issues](https://github.com/haonanren118/jxtvbox/issues) | 报 Bug、提需求。请附**版本号**（右下角/关于里可见）、**设备与系统**、**复现步骤** |
+| [Releases](https://github.com/haonanren118/jxtvbox/releases) | 每个版本的安装包（fpk / 离线镜像）与变更说明。点 **Watch → Custom → Releases** 可只收版本通知 |
+| [Discussions](https://github.com/haonanren118/jxtvbox/discussions) | 使用技巧、部署方案、源格式讨论 |
+
+> 群里只聊安装、配置与使用，**不发任何影视资源与付费内容**，请遵守所在地区法律法规。
+
+---
+
 ## 致谢
 
 - [ArtPlayer](https://github.com/zhw2590582/ArtPlayer)、[hls.js](https://github.com/video-dev/hls.js)、[mpegts.js](https://github.com/xqq/mpegts.js) —— 播放内核
@@ -310,3 +334,13 @@ jxtvbox/
 ## License
 
 **AGPL-3.0**。衍生作品需以相同许可证开放源代码，详见 [LICENSE](LICENSE)。
+
+---
+
+<div align="center">
+
+**如果这个项目帮到了你，点右上角 ⭐ Star —— 这是让更多人搜到它最直接的帮助。**
+
+有问题欢迎进 QQ 群 **708144970** 交流。
+
+</div>
